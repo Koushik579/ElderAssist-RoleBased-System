@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElderAssist-register</title>
+    <link rel="stylesheet" href="./css/regstyle.css">
+</head>
+<body>
+    <div class="regpanel">
+        <div class="container">
+            <h2>Register</h2>
+
+            <form id="registerForm">
+
+            <div class="input-box">
+                <label>Full Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+
+            <div class="input-box">
+                <label>Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="input-box">
+                <label>Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <div class="input-box">
+                <label>Confirm Password</label>
+                <input type="password" id="confirmPassword" required>
+            </div>
+
+            <div class="input-box">
+                <label>Phone Number</label>
+                <input type="tel" id="phone" name="phone">
+            </div>
+
+            <div class="input-box">
+                <label>Register As</label>
+                <select id="role" name="role" required>
+                <option value="USER">User</option>
+                <option value="CAREGIVER">Caregiver</option>
+                </select>
+            </div>
+
+            <button type="submit">Register</button>
+
+            </form>
+
+            <div class="message" id="message"></div>
+            <div class="loginredirect">
+                <a href="./loginpage.html" class="logintext">
+                    Already have an account?
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
