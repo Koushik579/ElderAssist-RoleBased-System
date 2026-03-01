@@ -38,7 +38,7 @@ CSS
 JavaScript
 
 NPM
-
+```
 📁 Project Structure
 ElderAssist/
 ├── admindashboard/
@@ -50,6 +50,8 @@ ElderAssist/
 ├── package.json
 ├── package-lock.json
 └── node_modules/
+```
+
 Folder Purpose
 
 landingpage/ → Main public entry page
