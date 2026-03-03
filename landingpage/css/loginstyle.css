@@ -200,9 +200,9 @@ a{
         font-size: 13px;
     }
 
-    .password-group input {
+/*     .password-group input {
         padding-left: 50px;
-    }
+    } */
 
     .toggle-password svg {
         width: 20px;
