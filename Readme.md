@@ -1,113 +1,149 @@
-🧓 ElderAssist – Multi-Role Assistance Platform
+ElderAssist – Role-Based Elderly Care Management System
+Overview
 
-ElderAssist is a Node.js-based web application designed to manage and assist elderly care services through separate dashboards for Admin, Caretaker, and User roles.
+ElderAssist is a role-based elderly care management system built using Node.js, Express, and PostgreSQL.
+The application provides separate dashboards and workflows for:
 
-The project focuses on structured role-based UI separation and scalable project organization.
+Admin
 
-🚀 Project Status
+Caretaker
 
-Core dashboard structure completed
-Backend logic and integrations can be expanded further
+User
 
-✨ Features
+The system follows a structured backend architecture with database connection pooling and repository-based data access.
 
-Role-based dashboard structure
+Features
+Authentication
+
+Login & Registration
+
+Role-based access control
+
+Separate dashboards for Admin, Caretaker, and Users
 
 Admin Dashboard
 
+Manage system users
+
+Monitor overall activity
+
 Caretaker Dashboard
+
+Access assigned user data
+
+Manage care-related information
 
 User Dashboard
 
-Dedicated landing page
+Personal profile access
 
-Organized asset folders (SVG, Images)
+Interaction with assigned caretaker
 
-Modular project structure
+Backend Architecture
 
-Node.js package management
+Express server
 
-🛠 Tech Stack
+PostgreSQL database
 
-Node.js
+Connection pooling using pg
 
-HTML
+Repository layer abstraction
 
-CSS
+Modular folder structure
 
-JavaScript
-
-NPM
 ```
-📁 Project Structure
+Project Structure
 ElderAssist/
+│
+├── landingpage/          # Public pages (home, login, register)
+│   ├── css/
+│   ├── js/
+│
 ├── admindashboard/
 ├── caretakerdashboard/
 ├── userdashboard/
-├── landingpage/
+│
+├── main/
+│   ├── app.js            # Express entry point
+│   ├── database/
+│   │   └── pool.js       # PostgreSQL connection pool
+│   ├── repository/
+│   │   └── repo.js       # Database logic layer
+│
 ├── img/
 ├── svg/
 ├── package.json
-├── package-lock.json
-└── node_modules/
 ```
 
-Folder Purpose
+Tech Stack
 
-landingpage/ → Main public entry page
+Node.js
 
-admindashboard/ → Admin interface
+Express.js
 
-caretakerdashboard/ → Caretaker interface
+PostgreSQL
 
-userdashboard/ → User interface
+HTML5
 
-img/ → Image assets
+CSS3
 
-svg/ → Icon assets
+JavaScript
 
-▶️ How to Run
+pg (PostgreSQL driver)
 
-Clone the repository
-
-Navigate into the project folder
-
-Install dependencies:
-
+Installation & Setup
+1. Clone Repository
+git clone <your-repo-url>
+cd ElderAssist
+2. Install Dependencies
 npm install
+3. Configure Database
 
-Start the application (if server is configured):
+Update PostgreSQL credentials inside:
 
-npm start
+main/database/pool.js
 
-Or open the landing page manually if it's frontend-based.
+Make sure PostgreSQL is running locally.
 
-🎯 Purpose of the Project
+4. Start Server
+node main/app.js
 
-Practice multi-role system architecture
+Or if you add nodemon:
 
-Organize large frontend structures
+npx nodemon main/app.js
+5. Open in Browser
+http://localhost:3000
 
-Build scalable dashboard-based UI
+(Adjust port if changed in app.js)
 
-Prepare foundation for backend authentication logic
+Work in Progress
 
-🔮 Planned Enhancements
+Full authentication validation
 
-Backend authentication (JWT / Sessions)
+Session management improvements
 
-Database integration
+UI refinement
 
-API development
+Error handling middleware
 
-Role-based route protection
+Production-ready security hardening
 
-Notification system
+Future Improvements
 
-Real-time updates
+JWT-based authentication
 
-👤 Author
+Password hashing
+
+RESTful API structure
+
+Deployment configuration
+
+Role middleware authorization
+
+Logging & monitoring
+
+Author
 
 Koushik Karmakar
-Java & Node Backend Developer (Learning)
-Full-Stack Web Development Enthusiast
+Java & Node.js Backend Developer
+Focused on structured backend architecture and role-based systems.
