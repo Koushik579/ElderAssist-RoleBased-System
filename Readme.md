@@ -1,5 +1,5 @@
-ElderAssist – Role-Based Elderly Care Management System
-Overview
+# ElderAssist – Role-Based Elderly Care Management System
+## Overview
 
 ElderAssist is a role-based elderly care management system built using Node.js, Express, and PostgreSQL.
 The application provides separate dashboards and workflows for:
@@ -52,7 +52,7 @@ Repository layer abstraction
 Modular folder structure
 
 ```
-Project Structure
+## Project Structure
 ElderAssist/
 │
 ├── landingpage/          # Public pages (home, login, register)
@@ -75,7 +75,7 @@ ElderAssist/
 ├── package.json
 ```
 
-Tech Stack
+## Tech Stack
 
 Node.js
 
@@ -91,7 +91,7 @@ JavaScript
 
 pg (PostgreSQL driver)
 
-Installation & Setup
+## Installation & Setup
 1. Clone Repository
 git clone <your-repo-url>
 cd ElderAssist
@@ -116,7 +116,7 @@ http://localhost:3000
 
 (Adjust port if changed in app.js)
 
-Work in Progress
+## Work in Progress
 
 Full authentication validation
 
@@ -142,7 +142,7 @@ Role middleware authorization
 
 Logging & monitoring
 
-Author
+## Author
 
 Koushik Karmakar
 Java & Node.js Backend Developer
