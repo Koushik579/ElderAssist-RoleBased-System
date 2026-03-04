@@ -84,7 +84,9 @@ body {
     color: white;
     letter-spacing: 2px;
 }
-
+.logoTxt{
+    font-size: clamp(8px, 4vw, 18px);
+}
 /* Buttons */
 
 .form_btn a {
@@ -304,6 +306,22 @@ body {
     .logo_btns {
         padding: 0 20px;
         height: 70px;
+    }
+
+    .form_btn{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+
+    .form_btn button {
+        padding: 5px 10px;
+        border-radius: 25px;
+        border: none;
+        font-weight: bold;
+        margin-left: 8px;
+        cursor: pointer;
+        transition: 0.3s ease;
     }
 
     .heroContent h1 {

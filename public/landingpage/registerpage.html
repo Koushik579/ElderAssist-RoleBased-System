@@ -47,6 +47,11 @@
                 <input type="password" id="confirmPassword" required>
             </div>
 
+            <div class="showpass-toggle">
+                <input type="checkbox" name="pass-checkbox" id="pass-checkbox" onclick="togglePass();">
+                <label for="pass-checkbox" id="togglePassword">Show password</label>
+            </div>
+
             <div class="input-box">
                 <label>Phone Number</label>
                 <input type="tel" id="phn" name="phn">
@@ -71,6 +76,22 @@
                 </a>
             </div>
         </div>
+    </div>
+    <!-- Trigger Button -->
+    <button id="openModal">Open Popup</button>
+
+    <!-- Modal Overlay -->
+    <div id="modalOverlay" class="modal-overlay">
+
+        <div class="modal-box">
+            <span class="close-btn" id="closeModal">&times;</span>
+
+            <h2>Registration Successful</h2>
+            <p>You will be redirected to dashboard.</p>
+
+            <button id="redirectBtn">Go to Dashboard</button>
+        </div>
+
     </div>
     <script src="./js/regscript.js"></script>
 </body>
