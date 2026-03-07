@@ -1,0 +1,142 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #118ad7;
+  --primary-dark: #0a72b4;
+  --surface: #ffffff;
+  --text: #1f2a37;
+  --muted: #607084;
+  --border: #d8e3ef;
+  --shadow: 0 20px 45px -24px rgba(22, 51, 84, 0.35);
+}
+
+body {
+  font-family: "Segoe UI", "Trebuchet MS", Arial, sans-serif;
+  background: radial-gradient(circle at 10% 10%, #e9f4ff 0%, #f4f8fc 34%, #f2f6fb 100%);
+  color: var(--text);
+}
+
+.header {
+  background: linear-gradient(135deg, #14aed0, #0a72b4);
+  color: #fff;
+  padding: 32px 18px;
+}
+
+.headerTop {
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+}
+
+.header h1 {
+  font-size: clamp(28px, 5vw, 42px);
+  margin-bottom: 6px;
+}
+
+.header p {
+  opacity: 0.95;
+}
+
+.logoutBtn {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-weight: 700;
+  color: #fff;
+  background: rgba(240, 71, 71, 0.9);
+  cursor: pointer;
+}
+
+.main {
+  padding: clamp(20px, 5vw, 44px) clamp(16px, 6vw, 8%);
+}
+
+.tableSection h2 {
+  color: var(--primary);
+  margin-bottom: 10px;
+  font-size: clamp(24px, 3.7vw, 34px);
+}
+
+.emptyState {
+  color: var(--muted);
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.tableWrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+  min-width: 860px;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 12px;
+  border-bottom: 1px solid #e4ebf3;
+  text-align: left;
+  font-size: 14px;
+}
+
+th {
+  background: #eef7ff;
+  color: var(--primary-dark);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+tbody tr:hover {
+  background: #f8fbff;
+}
+
+.statusSelect,
+.updateBtn {
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  font-size: 13px;
+}
+
+.updateBtn {
+  margin-left: 6px;
+  border: none;
+  color: #fff;
+  background: linear-gradient(135deg, var(--primary), #17aed4);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.updateBtn:disabled {
+  opacity: 0.75;
+  cursor: wait;
+}
+
+@media (max-width: 760px) {
+  .main {
+    padding-inline: 12px;
+  }
+
+  .tableWrap {
+    border-radius: 12px;
+  }
+
+  .headerTop {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

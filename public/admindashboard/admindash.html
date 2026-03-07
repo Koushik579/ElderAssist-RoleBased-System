@@ -1,11 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ElderAssist - Admin Dashboard</title>
+  <link rel="stylesheet" href="/admindashboard/adminstyle.css">
 </head>
 <body>
-    
+  <div class="adminPage">
+    <header class="adminHeader">
+      <div>
+        <h1>Admin Dashboard</h1>
+        <p>Manage users, caregivers, and bookings from a single control panel.</p>
+      </div>
+      <button id="adminLogoutBtn" class="logoutBtn" type="button">Logout</button>
+    </header>
+
+    <main class="adminMain">
+      <section class="kpiGrid">
+        <article class="kpiCard">
+          <h3>Users</h3>
+          <p id="adminUsers">--</p>
+        </article>
+        <article class="kpiCard">
+          <h3>Caregivers</h3>
+          <p id="adminCaregivers">--</p>
+        </article>
+        <article class="kpiCard">
+          <h3>Active Bookings</h3>
+          <p id="adminBookings">--</p>
+        </article>
+      </section>
+
+      <section class="adminPanel">
+        <h2>System Status</h2>
+        <p>This admin surface is ready for integration with advanced controls.</p>
+      </section>
+    </main>
+  </div>
+
+  <script src="/admindashboard/adminscript.js"></script>
 </body>
-</html>  
+</html>

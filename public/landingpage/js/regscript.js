@@ -52,12 +52,16 @@ form.addEventListener("submit", async function (e) {
         }
 
         if (pass.value.length < 8) {
-            message.textContent = "Password must be at least 6 characters";
+            message.textContent = "Password must be at least 8 characters";
             return;
         }
 
         if (pass.value !== confirmPass.value) {
             message.textContent = "Passwords do not match";
+            return;
+        }
+        if(!specialChar.test(confirmPass.value)){
+            message.textContent = "Atleast 1 special character needed";
             return;
         }
 
@@ -73,7 +77,8 @@ form.addEventListener("submit", async function (e) {
         const res = await fetch("/register", {
             method: "POST",
             headers: {"Content-Type":"application/json"},
-            body: ({firstname:fname.value,
+            body: JSON.stringify({
+                    firstname:fname.value,
                     lastname :lname.value,
                     gender :gender.value,
                     email : email.value,
@@ -87,8 +92,8 @@ form.addEventListener("submit", async function (e) {
         if(!res.ok){
             throw new Error(data.error);
         }
-        
         modal.style.display = "flex";
+
     } catch (err) {
         message.textContent = err.message;
     }
@@ -98,12 +103,9 @@ form.addEventListener("submit", async function (e) {
 /*==================*/
 /*Overlay Buttons*/
 /*==================*/
-closeModal.addEventListener("click", () => {
-    modal.style.display = "none";
-});
 
 redirectBtn.addEventListener("click", () => {
-    window.location.href = "/loginpage.html";
+    window.location.href = "/loginpage";
 });
 
 /*==================*/

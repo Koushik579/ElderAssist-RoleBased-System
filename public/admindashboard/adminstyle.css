@@ -1,0 +1,99 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #118ad7;
+  --primary-dark: #0a72b4;
+  --surface: #ffffff;
+  --text: #1f2a37;
+  --muted: #607084;
+  --border: #d8e3ef;
+  --shadow: 0 20px 45px -24px rgba(22, 51, 84, 0.35);
+}
+
+body {
+  min-height: 100vh;
+  font-family: "Segoe UI", "Trebuchet MS", Arial, sans-serif;
+  background: radial-gradient(circle at 10% 10%, #e9f4ff 0%, #f4f8fc 34%, #f2f6fb 100%);
+  color: var(--text);
+}
+
+.adminPage {
+  min-height: 100vh;
+}
+
+.adminHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  padding: 26px clamp(18px, 5vw, 56px);
+  color: #fff;
+  background: linear-gradient(135deg, #14aed0, #0a72b4);
+}
+
+.adminHeader h1 {
+  font-size: clamp(28px, 5vw, 42px);
+  margin-bottom: 4px;
+}
+
+.logoutBtn {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-weight: 700;
+  color: #fff;
+  background: rgba(240, 71, 71, 0.9);
+  cursor: pointer;
+}
+
+.adminMain {
+  padding: clamp(20px, 5vw, 44px) clamp(18px, 6vw, 8%);
+}
+
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 16px;
+}
+
+.kpiCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: var(--shadow);
+}
+
+.kpiCard h3 {
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.kpiCard p {
+  color: var(--primary-dark);
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.adminPanel {
+  margin-top: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+
+.adminPanel h2 {
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+
+.adminPanel p {
+  color: var(--muted);
+}

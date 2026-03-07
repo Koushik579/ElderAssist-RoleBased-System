@@ -1,221 +1,179 @@
-/* ========================= */
-/* GLOBAL */
-/* ========================= */
-
 * {
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #118ad7;
+  --primary-dark: #0a72b4;
+  --text: #1f2a37;
+  --muted: #617286;
+  --surface: #ffffff;
+  --border: #d6e3f0;
 }
 
 body {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: linear-gradient(135deg, #12B1D1, #0a7cbf);
+  min-height: 100vh;
+  font-family: "Segoe UI", "Trebuchet MS", Arial, sans-serif;
+  background: radial-gradient(circle at top left, #1ec0dd 0%, #118ad7 40%, #0b5a8b 100%);
+  color: var(--text);
 }
-a{
-    cursor: pointer;
-    text-decoration: none;
-    color: black;
+
+a {
+  text-decoration: none;
 }
-/* ========================= */
-/* LAYOUT */
-/* ========================= */
 
 .loginpanel {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 20px;
 }
 
 .logincard {
-    background-color: #F8F9FD;
-    width: 100%;
-    max-width: 380px;
-    padding: 35px;
-    border-radius: 20px;
-    box-shadow:
-        rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
-        rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+  width: min(430px, 100%);
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 24px;
+  padding: 30px;
+  box-shadow: 0 28px 60px -34px rgba(4, 19, 31, 0.8);
+  backdrop-filter: blur(8px);
 }
 
 .logincard h2 {
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 28px;
-    color: #1089D3;
+  font-size: 30px;
+  text-align: center;
+  color: var(--primary-dark);
+  margin-bottom: 20px;
 }
 
-/* ========================= */
-/* FORM */
-/* ========================= */
+.msg-div {
+  min-height: 26px;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+#login-message {
+  color: #d23838;
+  font-size: 14px;
+  font-weight: 600;
+}
 
 .loginform {
-    display: flex;
-    flex-direction: column;
+  display: grid;
+  gap: 14px;
 }
 
 .input-group {
-    margin-bottom: 20px;
-    position: relative;
+  position: relative;
 }
 
-/* INPUT STYLE */
-
 .input-group input {
-    width: 100%;
-    padding: 14px 20px;
-    border-radius: 30px;
-    border: 2px solid transparent;
-    background: #ffffff;
-    box-shadow: #cff0ff 0px 10px 15px -5px;
-    font-size: 14px;
-    transition: 0.3s ease;
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 13px 14px;
+  font-size: 15px;
+  background: #fff;
+  color: #1f2a37;
 }
 
 .input-group input:focus {
-    outline: none;
-    border-color: #12B1D1;
+  outline: 2px solid rgba(17, 138, 215, 0.24);
+  border-color: var(--primary);
 }
 
-/* ========================= */
-/* PASSWORD ICON OVERLAY */
-/* ========================= */
-
-.password-group {
-    position: relative;
-}
-
- /* Add left padding so text doesn't overlap icon 
 .password-group input {
-    padding-left: 55px;
-} */
+  padding-right: 44px;
+}
 
-/* Toggle Button positioned INSIDE input */
 .toggle-password {
-    position: absolute;
-    left: 85%;              
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    z-index: 2;              /* above input */
-    display: flex;
-    align-items: center;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
-/* Icon style */
 .toggle-password svg {
-    width: 22px;
-    height: 22px;
-    fill: #888;
-    transition: 0.2s ease;
+  width: 20px;
+  height: 20px;
+  fill: #7891ab;
 }
 
-/* Hover effect */
 .toggle-password:hover svg {
-    fill: #1089D3;
+  fill: var(--primary);
 }
 
-/* Hide closed icon initially */
 .eye-closed {
-    display: none;
+  display: none;
 }
 
-/* When active (password visible) */
 .toggle-password.active .eye-open {
-    display: none;
+  display: none;
 }
 
 .toggle-password.active .eye-closed {
-    display: block;
+  display: block;
 }
 
-/* ========================= */
-/* LINKS & BUTTON */
-/* ========================= */
-
 .forgot {
-    text-decoration: none;
-    font-size: 14px;
-    color: #0099ff;
-    margin-bottom: 25px;
-    align-self: flex-end;
+  justify-self: end;
+  color: var(--primary-dark);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.forgot:hover {
+  text-decoration: underline;
 }
 
 .login-btn {
-    padding: 14px;
-    border-radius: 30px;
-    border: none;
-    font-weight: bold;
-    background: linear-gradient(45deg, #1089D3, #12B1D1);
-    color: white;
-    cursor: pointer;
-    transition: 0.2s ease;
+  margin-top: 4px;
+  border: none;
+  border-radius: 12px;
+  padding: 12px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--primary), #17aed4);
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  transition: transform 0.16s ease, box-shadow 0.16s ease;
 }
 
 .login-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: rgba(16, 137, 211, 0.4) 0px 10px 20px -10px;
-}
-
-.login-btn:active {
-    transform: scale(0.96);
+  transform: translateY(-1px);
+  box-shadow: 0 14px 26px -18px rgba(10, 114, 180, 0.95);
 }
 
 .register-text {
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 600;
-    color: #1089D3;
-    transition: 0.2s ease;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
+  margin-top: 4px;
+  text-align: center;
+  color: var(--primary-dark);
+  font-size: 14px;
+  font-weight: 600;
 }
-.register-text:hover{
-    color: #0a7cbf;
-    text-decoration: underline;
+
+.register-text:hover {
+  text-decoration: underline;
 }
-/* ========================= */
-/* MOBILE RESPONSIVE */
-/* ========================= */
 
-@media (max-width: 480px) {
+.login-bottom-space {
+  height: 2px;
+}
 
-    .logincard {
-        padding: 25px;
-        border-radius: 16px;
-    }
+@media (max-width: 520px) {
+  .logincard {
+    border-radius: 18px;
+    padding: 24px 18px;
+  }
 
-    .logincard h2 {
-        font-size: 22px;
-    }
-
-    .input-group input {
-        padding: 12px 18px;
-        font-size: 13px;
-    }
-
-/*     .password-group input {
-        padding-left: 50px;
-    } */
-
-    .toggle-password svg {
-        width: 20px;
-        height: 20px;
-    }
-
-    .login-btn {
-        padding: 12px;
-        font-size: 14px;
-    }
-
-    .forgot,
-    .register-text {
-        font-size: 13px;
-    }
+  .logincard h2 {
+    font-size: 26px;
+  }
 }

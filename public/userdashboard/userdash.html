@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ElderAssist - User Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/userdashboard/userstyle.css" />
+  </head>
+  <body>
+    <div class="parent">
+      <header class="header">
+        <div class="logo">
+          <div class="logoImg">
+            <img src="/assets/img/logo/elderlogo.png" alt="Elder Assist Logo" />
+          </div>
+          <div class="logoTxt">
+            <h2>ELDER ASSIST</h2>
+          </div>
+        </div>
+
+        <nav class="nav-links" aria-label="Primary navigation">
+          <a href="#home">Home</a>
+          <a href="#about">Profile</a>
+          <a href="#appointments">Appointments</a>
+          <a href="#caregivers">Caregivers</a>
+          <a href="#services">Services</a>
+          <a href="#contact">Contact</a>
+          <a href="#" id="logoutBtn" class="logoutLink">Logout</a>
+        </nav>
+
+        <div id="menuButton">
+          <input type="checkbox" id="sidebarToggle" />
+          <label for="sidebarToggle" id="menuOpen" aria-label="Open menu">
+            <svg xmlns="http://www.w3.org/2000/svg" height="34px" viewBox="0 -960 960 960" width="34px" fill="white">
+              <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
+            </svg>
+          </label>
+          <label for="sidebarToggle" class="overlay-label"></label>
+
+          <aside class="sideBar">
+            <div class="menuClose">
+              <label for="sidebarToggle" id="menuClose" aria-label="Close menu">
+                <svg xmlns="http://www.w3.org/2000/svg" height="34px" viewBox="0 -960 960 960" width="34px" fill="white">
+                  <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+                </svg>
+              </label>
+            </div>
+            <div class="sideBar-links">
+              <a href="#home">Home</a>
+              <a href="#about">Profile</a>
+              <a href="#appointments">Appointments</a>
+              <a href="#caregivers">Caregivers</a>
+              <a href="#services">Services</a>
+              <a href="#contact">Contact</a>
+              <a href="#" id="logoutBtnMobile" class="logoutLink">Logout</a>
+            </div>
+          </aside>
+        </div>
+      </header>
+
+      <main class="main">
+        <section id="home" class="topMain">
+          <div class="background">
+            <img src="/assets/img/backgrounds/indexback.jpg" alt="Caregiver assisting elderly" />
+          </div>
+          <div class="tint"></div>
+
+          <div class="heroContent">
+            <h1 id="heroGreeting">Welcome Back to ElderAssist</h1>
+            <p>Manage caregivers, book appointments, and monitor elderly care from one simple dashboard.</p>
+            <a href="#appointments" class="heroBtn">Book Appointment</a>
+          </div>
+        </section>
+
+        <section id="about" class="section aboutSection">
+          <h2>Your Profile</h2>
+          <div class="profileGrid">
+            <article class="infoCard">
+              <h3>Full Name</h3>
+              <p id="userName">Loading...</p>
+            </article>
+            <article class="infoCard">
+              <h3>Email</h3>
+              <p id="userEmail">Loading...</p>
+            </article>
+            <article class="infoCard">
+              <h3>Gender</h3>
+              <p id="userGender">Loading...</p>
+            </article>
+          </div>
+        </section>
+
+        <section id="appointments" class="section appointmentsSection">
+          <h2>Appointments</h2>
+          <p id="appointmentEmpty" class="emptyState">There are no appointments right now.</p>
+          <div id="appointmentsList" class="cardsGrid"></div>
+
+          <div class="bookingFormWrap">
+            <h3>Book Appointment</h3>
+            <form id="appointmentForm" class="bookingForm">
+              <label for="serviceSelect">Service</label>
+              <select id="serviceSelect" required>
+                <option value="">Select Service</option>
+              </select>
+
+              <label for="servicePrice">Hourly Price (?)</label>
+              <input type="text" id="servicePrice" readonly />
+
+              <label for="duration">Hours</label>
+              <select id="duration">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="4">4</option>
+                <option value="8">8</option>
+              </select>
+
+              <label for="totalPrice">Total Price (?)</label>
+              <input type="text" id="totalPrice" readonly />
+
+              <label for="appointmentDate">Date</label>
+              <input type="date" id="appointmentDate" required />
+
+              <label for="appointmentTime">Time</label>
+              <input type="time" id="appointmentTime" required />
+
+              <label for="patientAge">Patient Age</label>
+              <input type="number" id="patientAge" />
+
+              <label for="notes">Health Notes</label>
+              <textarea id="notes" rows="4"></textarea>
+
+              <button type="submit">Book Appointment</button>
+            </form>
+            <p id="formMessage"></p>
+          </div>
+        </section>
+
+        <section id="caregivers" class="section caregiversSection">
+          <h2>Available Caregivers</h2>
+          <div class="filters">
+            <select id="serviceFilter">
+              <option value="">All Services</option>
+            </select>
+            <select id="experienceFilter">
+              <option value="">Experience</option>
+              <option value="1">1+ years</option>
+              <option value="3">3+ years</option>
+              <option value="5">5+ years</option>
+            </select>
+          </div>
+          <div id="caregiverList" class="cardsGrid"></div>
+        </section>
+
+        <section id="bookingHistory" class="section">
+          <h2>Your Booking History</h2>
+          <div id="bookingHistoryList" class="cardsGrid"></div>
+        </section>
+
+        <section id="services" class="section servicesSection">
+          <h2>Our Services</h2>
+          <div class="cardsGrid">
+            <article class="infoCard">
+              <h3>Nursing Care</h3>
+              <p>Professional nurses providing medication management and medical support at home.</p>
+            </article>
+            <article class="infoCard">
+              <h3>Home Care Assistance</h3>
+              <p>Daily assistance including bathing, feeding, and mobility support for elderly patients.</p>
+            </article>
+            <article class="infoCard">
+              <h3>Physiotherapy</h3>
+              <p>Licensed physiotherapists helping elderly patients regain strength and mobility.</p>
+            </article>
+            <article class="infoCard">
+              <h3>Post-Hospital Care</h3>
+              <p>Recovery support after hospital discharge including monitoring and rehabilitation.</p>
+            </article>
+          </div>
+        </section>
+
+        <section id="contact" class="section contactSection">
+          <h2>Contact Support</h2>
+          <p>Need help with caregivers or appointments? Reach out to our support team anytime.</p>
+          <div class="contactRow">
+            <p>Email: support@elderassist.com</p>
+            <p>Phone: +91 98765 43210</p>
+            <p>Location: India</p>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <p>&copy; 2026 ElderAssist. All Rights Reserved.</p>
+      </footer>
+    </div>
+
+    <script src="/userdashboard/userscript.js"></script>
+  </body>
+</html>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ElderAssist-register</title>
-    <link rel="stylesheet" href="./css/regstyle.css">
+    <link rel="stylesheet" href="/landingpage/css/regstyle.css">
 </head>
 <body>
     <div class="regpanel">
@@ -71,28 +71,25 @@
 
             <div class="message" id="message"></div>
             <div class="loginredirect">
-                <a href="./loginpage.html" class="logintext">
+                <a href="/loginpage" class="logintext">
                     Already have an account?
                 </a>
             </div>
         </div>
     </div>
-    <!-- Trigger Button -->
-    <button id="openModal">Open Popup</button>
 
     <!-- Modal Overlay -->
     <div id="modalOverlay" class="modal-overlay">
 
         <div class="modal-box">
-            <span class="close-btn" id="closeModal">&times;</span>
-
+            <img src="/assets/img/logo/successfulreg.png" alt="Successful image">
             <h2>Registration Successful</h2>
-            <p>You will be redirected to dashboard.</p>
+            <p>You will be redirected to Login Page.</p>
 
-            <button id="redirectBtn">Go to Dashboard</button>
+            <button id="redirectBtn">Go to Login Page</button>
         </div>
 
     </div>
-    <script src="./js/regscript.js"></script>
+    <script src="/landingpage/js/regscript.js"></script>
 </body>
 </html>

@@ -1,11 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ElderAssist - Caregiver Dashboard</title>
+  <link rel="stylesheet" href="/caretakerdashboard/caretakerstyle.css">
 </head>
 <body>
-    
+  <div class="parent">
+    <header class="header">
+      <div class="headerTop">
+        <div>
+          <h1>Caregiver Dashboard</h1>
+          <p>Review bookings and update appointment status quickly.</p>
+        </div>
+        <button id="logoutBtn" class="logoutBtn" type="button">Logout</button>
+      </div>
+    </header>
+
+    <main class="main">
+      <section class="tableSection">
+        <h2>Assigned Bookings</h2>
+        <p id="emptyState" class="emptyState">No bookings available right now.</p>
+
+        <div class="tableWrap">
+          <table id="appointmentsTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>User</th>
+                <th>Service</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+                <th>Update</th>
+              </tr>
+            </thead>
+            <tbody id="appointmentsBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/caretakerdashboard/caretakerscript.js"></script>
 </body>
 </html>
