@@ -5,19 +5,21 @@
 }
 
 :root {
-  --primary: #118ad7;
-  --primary-dark: #0a72b4;
+  --primary: #1f7ec7;
+  --primary-dark: #155d95;
   --surface: #ffffff;
-  --text: #1f2a37;
-  --muted: #607084;
-  --border: #d8e3ef;
+  --text: #172532;
+  --muted: #5b7086;
+  --border: #d8e4f0;
   --shadow: 0 20px 45px -24px rgba(22, 51, 84, 0.35);
 }
 
 body {
   min-height: 100vh;
-  font-family: "Segoe UI", "Trebuchet MS", Arial, sans-serif;
-  background: radial-gradient(circle at 10% 10%, #e9f4ff 0%, #f4f8fc 34%, #f2f6fb 100%);
+  font-family: "Manrope", "Segoe UI", Arial, sans-serif;
+  background:
+    radial-gradient(circle at 8% 10%, #e4f2ff 0%, transparent 32%),
+    linear-gradient(180deg, #f7fbff 0%, #eef5fc 100%);
   color: var(--text);
 }
 
@@ -32,12 +34,37 @@ body {
   gap: 14px;
   padding: 26px clamp(18px, 5vw, 56px);
   color: #fff;
-  background: linear-gradient(135deg, #14aed0, #0a72b4);
+  background: linear-gradient(135deg, #19a2cb, #176eb0);
 }
 
 .adminHeader h1 {
   font-size: clamp(28px, 5vw, 42px);
   margin-bottom: 4px;
+}
+
+.adminHeader p {
+  opacity: 0.95;
+}
+
+.adminNav {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.adminNav a {
+  color: #e7f5ff;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  padding: 6px 11px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.adminNav a:hover {
+  background: rgba(255, 255, 255, 0.14);
 }
 
 .logoutBtn {
@@ -46,12 +73,14 @@ body {
   padding: 10px 16px;
   font-weight: 700;
   color: #fff;
-  background: rgba(240, 71, 71, 0.9);
+  background: rgba(230, 71, 71, 0.95);
   cursor: pointer;
 }
 
 .adminMain {
   padding: clamp(20px, 5vw, 44px) clamp(18px, 6vw, 8%);
+  display: grid;
+  gap: 20px;
 }
 
 .kpiGrid {
@@ -77,23 +106,145 @@ body {
 .kpiCard p {
   color: var(--primary-dark);
   font-size: 30px;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .adminPanel {
-  margin-top: 20px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 16px;
-  padding: 20px;
+  padding: 18px;
   box-shadow: var(--shadow);
 }
 
-.adminPanel h2 {
-  color: var(--primary);
-  margin-bottom: 8px;
+.panelHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
 }
 
-.adminPanel p {
+.panelHeader h2 {
+  color: var(--primary);
+  font-size: 24px;
+}
+
+.filterBar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filterBar input,
+.filterBar select {
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 9px 12px;
+  min-width: 190px;
+  background: #fff;
+}
+
+.filterBar button {
+  border: none;
+  border-radius: 9px;
+  padding: 9px 12px;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, var(--primary), #20a7d4);
+  cursor: pointer;
+}
+
+.filterBar .ghostBtn {
+  color: var(--primary-dark);
+  background: #edf6ff;
+  border: 1px solid #cfe4f9;
+}
+
+.tableWrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 760px;
+}
+
+th,
+td {
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  font-size: 14px;
+}
+
+th {
+  color: var(--primary-dark);
+  background: #f4f9ff;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+}
+
+tbody tr:hover {
+  background: #fbfdff;
+}
+
+.statusTag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 800;
+  border: 1px solid;
+}
+
+.statusPending {
+  color: #7f6400;
+  background: #fff6cb;
+  border-color: #f6d257;
+}
+
+.statusApproved {
+  color: #146239;
+  background: #dbf9e7;
+  border-color: #4fd58a;
+}
+
+.emptyCell {
+  text-align: center;
   color: var(--muted);
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .adminHeader {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .logoutBtn {
+    width: 100%;
+  }
+
+  .adminNav a {
+    font-size: 12px;
+  }
+
+  .panelHeader h2 {
+    font-size: 21px;
+  }
+
+  .filterBar {
+    width: 100%;
+  }
+
+  .filterBar input,
+  .filterBar select,
+  .filterBar button {
+    flex: 1 1 180px;
+  }
 }

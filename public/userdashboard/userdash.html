@@ -109,6 +109,11 @@
                 <option value="">Select Service</option>
               </select>
 
+              <label for="caregiverSelect">Caregiver</label>
+              <select id="caregiverSelect" required>
+                <option value="">Select Caregiver</option>
+              </select>
+
               <label for="servicePrice">Hourly Price (?)</label>
               <input type="text" id="servicePrice" readonly />
 
@@ -125,6 +130,7 @@
 
               <label for="appointmentDate">Date</label>
               <input type="date" id="appointmentDate" required />
+              <div id="unavailableDates" class="unavailableDates" aria-live="polite"></div>
 
               <label for="appointmentTime">Time</label>
               <input type="time" id="appointmentTime" required />

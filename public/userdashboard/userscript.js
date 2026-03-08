@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const bookingHistoryList = document.getElementById("bookingHistoryList");
     const appointmentEmpty = document.getElementById("appointmentEmpty");
     const appointmentForm = document.getElementById("appointmentForm");
+    const appointmentDateInput = document.getElementById("appointmentDate");
     const serviceSelect = document.getElementById("serviceSelect") || document.getElementById("serviceType");
     const caregiverSelect = document.getElementById("caregiverSelect");
     const durationSelect = document.getElementById("duration");
@@ -18,11 +19,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const serviceFilter = document.getElementById("serviceFilter") || document.getElementById("caregiverServiceFilter");
     const experienceFilter = document.getElementById("experienceFilter");
     const formMessage = document.getElementById("formMessage");
+    const unavailableDates = document.getElementById("unavailableDates");
     const logoutBtn = document.getElementById("logoutBtn");
     const logoutBtnMobile = document.getElementById("logoutBtnMobile");
 
     let allServices = [];
     let allCaregivers = [];
+    let unavailableDateSet = new Set();
 
     mobileLinks.forEach((link) => {
         link.addEventListener("click", () => {
@@ -67,6 +70,24 @@ document.addEventListener("DOMContentLoaded", () => {
         return date.toLocaleDateString();
     }
 
+    function appointmentTimestamp(appointment) {
+        const datePart = appointment.booking_date ? String(appointment.booking_date).slice(0, 10) : "";
+        const timePart = appointment.booking_time ? String(appointment.booking_time).slice(0, 8) : "00:00:00";
+        const iso = datePart ? `${datePart}T${timePart}` : "";
+        const parsed = iso ? new Date(iso) : null;
+        if (parsed && !Number.isNaN(parsed.getTime())) return parsed.getTime();
+
+        const [y, m, d] = datePart.split("-").map(Number);
+        const [hh, mm, ss] = timePart.split(":").map(Number);
+        if (
+            Number.isInteger(y) && Number.isInteger(m) && Number.isInteger(d) &&
+            Number.isInteger(hh) && Number.isInteger(mm) && Number.isInteger(ss)
+        ) {
+            return new Date(y, m - 1, d, hh, mm, ss).getTime();
+        }
+        return 0;
+    }
+
     function statusClass(status) {
         const normalized = String(status || "PENDING").toLowerCase();
         if (normalized === "approved") return "status-approved";
@@ -74,6 +95,10 @@ document.addEventListener("DOMContentLoaded", () => {
         if (normalized === "rejected") return "status-rejected";
         if (normalized === "cancelled") return "status-cancelled";
         return "status-pending";
+    }
+
+    function isCompletedStatus(status) {
+        return String(status || "").toUpperCase() === "COMPLETED";
     }
 
     function serviceName(service) {
@@ -87,6 +112,15 @@ document.addEventListener("DOMContentLoaded", () => {
     function caregiverName(caregiver) {
         const fullName = [caregiver.first_name, caregiver.last_name].filter(Boolean).join(" ").trim();
         return fullName || caregiver.email || `Caregiver #${caregiver.id}`;
+    }
+
+    function formatDateIso(value) {
+        if (!value) return "";
+        const raw = String(value);
+        if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) return raw;
+        const date = new Date(raw);
+        if (Number.isNaN(date.getTime())) return "";
+        return date.toISOString().slice(0, 10);
     }
 
     function findServiceById(serviceId) {
@@ -103,6 +137,55 @@ document.addEventListener("DOMContentLoaded", () => {
         totalPriceInput.value = rate && hours ? String(rate * hours) : "";
     }
 
+    function renderUnavailableDates() {
+        if (!unavailableDates) return;
+        unavailableDates.innerHTML = "";
+        if (unavailableDateSet.size === 0) return;
+
+        Array.from(unavailableDateSet)
+            .sort((a, b) => a.localeCompare(b))
+            .forEach((date) => {
+                const chip = document.createElement("span");
+                chip.className = "unavailableDateChip";
+                chip.textContent = `${date} unavailable`;
+                unavailableDates.appendChild(chip);
+            });
+    }
+
+    function validateAppointmentDateAvailability() {
+        if (!appointmentDateInput) return true;
+        const selectedDate = formatDateIso(appointmentDateInput.value);
+        const isUnavailable = selectedDate && unavailableDateSet.has(selectedDate);
+        appointmentDateInput.classList.toggle("dateUnavailable", Boolean(isUnavailable));
+        if (isUnavailable && formMessage) {
+            formMessage.textContent = "Selected caregiver is not available on that date.";
+        }
+        return !isUnavailable;
+    }
+
+    async function loadCaregiverUnavailableDates(caregiverId) {
+        unavailableDateSet = new Set();
+        if (!caregiverId) {
+            renderUnavailableDates();
+            validateAppointmentDateAvailability();
+            return;
+        }
+
+        const res = await fetch(`/api/user/caregivers/${caregiverId}/unavailable-dates`, { method: "GET" });
+        if (!res.ok) {
+            throw new Error("Failed to load caregiver availability");
+        }
+
+        const data = await res.json();
+        const rows = data.unavailableDates || [];
+        rows.forEach((row) => {
+            const date = formatDateIso(row.booking_date);
+            if (date) unavailableDateSet.add(date);
+        });
+        renderUnavailableDates();
+        validateAppointmentDateAvailability();
+    }
+
     function renderAppointments(appointments) {
         if (appointmentsList) appointmentsList.innerHTML = "";
         if (bookingHistoryList) bookingHistoryList.innerHTML = "";
@@ -112,9 +195,21 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        if (appointmentEmpty) appointmentEmpty.style.display = "none";
+        const ongoingStatuses = new Set(["PENDING", "APPROVED"]);
+        const ongoingAppointments = appointments.filter((appointment) =>
+            ongoingStatuses.has(String(appointment.status || "PENDING").toUpperCase())
+        ).sort((a, b) => appointmentTimestamp(a) - appointmentTimestamp(b));
+        const historyAppointments = appointments.filter((appointment) =>
+            !ongoingStatuses.has(String(appointment.status || "PENDING").toUpperCase())
+        ).sort((a, b) => appointmentTimestamp(b) - appointmentTimestamp(a));
 
-        appointments.forEach((appointment) => {
+        if (appointmentEmpty) {
+            appointmentEmpty.style.display = ongoingAppointments.length === 0 ? "block" : "none";
+        }
+
+        ongoingAppointments.forEach((appointment) => {
+            const normalizedStatus = String(appointment.status || "PENDING").toUpperCase();
+            const canDelete = normalizedStatus === "PENDING";
             const cardHtml = `
                 <h3>${escapeHtml(appointment.service_name || "Care Appointment")}</h3>
                 <p><strong>Caregiver:</strong> ${escapeHtml(appointment.caregiver_name || "Not assigned")}</p>
@@ -124,6 +219,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <p><strong>Status:</strong> <span class="statusPill ${statusClass(appointment.status)}">${escapeHtml(appointment.status || "PENDING")}</span></p>
                 <p><strong>Total:</strong> ${escapeHtml(appointment.total_price || "0")}</p>
                 <p><strong>Notes:</strong> ${escapeHtml(appointment.notes || "No notes")}</p>
+                ${canDelete ? `<button class="cancelPendingBtn" data-booking-id="${escapeHtml(appointment.id)}">Delete Pending</button>` : ""}
             `;
 
             if (appointmentsList) {
@@ -132,6 +228,46 @@ document.addEventListener("DOMContentLoaded", () => {
                 card.innerHTML = cardHtml;
                 appointmentsList.appendChild(card);
             }
+        });
+
+        historyAppointments.forEach((appointment) => {
+            const isCompleted = isCompletedStatus(appointment.status);
+            const bookingId = Number(appointment.id);
+            const existingRating = Number(appointment.rating);
+            const safeRating = Number.isFinite(existingRating) && existingRating > 0
+                ? Math.max(1, Math.min(5, Number(existingRating.toFixed(1))))
+                : 0;
+            const activeStars = safeRating > 0 ? Math.round(safeRating) : 0;
+            const canRate = isCompleted && Number.isInteger(bookingId) && bookingId > 0 && Number(appointment.caregiver_id) > 0;
+            const hasSavedRating = safeRating > 0;
+            const ratingWidget = canRate
+                ? `
+                <div class="ratingWrap" data-booking-id="${escapeHtml(bookingId)}">
+                    <p class="ratingLabel">Rate this completed appointment</p>
+                    <div class="ratingStars" role="group" aria-label="Star rating">
+                        ${[1, 2, 3, 4, 5]
+                            .map((value) => hasSavedRating
+                                ? `<span class="ratingStar${activeStars >= value ? " is-active" : ""}" aria-hidden="true">&#9733;</span>`
+                                : `<button type="button" class="ratingStar${activeStars >= value ? " is-active" : ""}" data-rating-value="${value}" aria-label="Rate ${value} star${value > 1 ? "s" : ""}">&#9733;</button>`)
+                            .join("")}
+                    </div>
+                    ${hasSavedRating ? "" : `<button type="button" class="saveRatingBtn" data-booking-id="${escapeHtml(bookingId)}">Save Rating</button>`}
+                    <p class="ratingStatus">${safeRating ? `Your rating: ${safeRating.toFixed(1)}/5` : "No rating submitted yet."}</p>
+                </div>
+                `
+                : "";
+
+            const cardHtml = `
+                <h3>${escapeHtml(appointment.service_name || "Care Appointment")}</h3>
+                <p><strong>Caregiver:</strong> ${escapeHtml(appointment.caregiver_name || "Not assigned")}</p>
+                <p><strong>Date:</strong> ${escapeHtml(formatDate(appointment.booking_date))}</p>
+                <p><strong>Time:</strong> ${escapeHtml(appointment.booking_time || "NA")}</p>
+                <p><strong>Duration:</strong> ${escapeHtml(appointment.duration_hours || "NA")} hour(s)</p>
+                <p><strong>Status:</strong> <span class="statusPill ${statusClass(appointment.status)}">${escapeHtml(appointment.status || "PENDING")}</span></p>
+                <p><strong>Total:</strong> ${escapeHtml(appointment.total_price || "0")}</p>
+                <p><strong>Notes:</strong> ${escapeHtml(appointment.notes || "No notes")}</p>
+                ${ratingWidget}
+            `;
 
             if (bookingHistoryList) {
                 const card = document.createElement("article");
@@ -265,10 +401,25 @@ document.addEventListener("DOMContentLoaded", () => {
         serviceSelect.addEventListener("change", () => {
             populateCaregiverOptions(serviceSelect.value);
             updatePriceFields();
+            loadCaregiverUnavailableDates(caregiverSelect ? caregiverSelect.value : "").catch(() => {
+                unavailableDateSet = new Set();
+                renderUnavailableDates();
+            });
+        });
+    }
+    if (caregiverSelect) {
+        caregiverSelect.addEventListener("change", () => {
+            loadCaregiverUnavailableDates(caregiverSelect.value).catch(() => {
+                unavailableDateSet = new Set();
+                renderUnavailableDates();
+            });
         });
     }
     if (durationSelect) {
         durationSelect.addEventListener("change", updatePriceFields);
+    }
+    if (appointmentDateInput) {
+        appointmentDateInput.addEventListener("change", validateAppointmentDateAvailability);
     }
     if (serviceFilter) {
         serviceFilter.addEventListener("change", renderCaregiverCards);
@@ -281,6 +432,9 @@ document.addEventListener("DOMContentLoaded", () => {
         appointmentForm.addEventListener("submit", async (event) => {
             event.preventDefault();
             if (formMessage) formMessage.textContent = "";
+            if (!validateAppointmentDateAvailability()) {
+                return;
+            }
 
             const payload = {
                 caregiverId: caregiverSelect ? caregiverSelect.value || null : null,
@@ -308,6 +462,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (formMessage) formMessage.textContent = data.message || "Appointment booked successfully";
                 appointmentForm.reset();
                 updatePriceFields();
+                if (caregiverSelect && caregiverSelect.value) {
+                    await loadCaregiverUnavailableDates(caregiverSelect.value);
+                } else {
+                    unavailableDateSet = new Set();
+                    renderUnavailableDates();
+                }
                 await loadAppointments();
             } catch (err) {
                 if (formMessage) formMessage.textContent = "Something went wrong. Try again.";
@@ -315,7 +475,102 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    Promise.all([loadProfile(), loadBookingOptions(), loadAppointments()]).catch(() => {
+    if (appointmentsList) {
+        appointmentsList.addEventListener("click", async (event) => {
+            const button = event.target.closest(".cancelPendingBtn");
+            if (!button) return;
+
+            const bookingId = Number(button.dataset.bookingId);
+            if (!Number.isInteger(bookingId) || bookingId <= 0) return;
+
+            button.disabled = true;
+            button.textContent = "Removing...";
+
+            try {
+                const res = await fetch(`/api/user/appointments/${bookingId}/cancel`, { method: "PUT" });
+                const data = await res.json();
+                if (!res.ok) {
+                    throw new Error(data.error || "Failed to remove pending appointment");
+                }
+                await loadAppointments();
+            } catch (err) {
+                button.disabled = false;
+                button.textContent = "Delete Pending";
+                if (formMessage) formMessage.textContent = err.message || "Could not remove pending appointment.";
+            }
+        });
+    }
+
+    if (bookingHistoryList) {
+        bookingHistoryList.addEventListener("click", async (event) => {
+            const starButton = event.target.closest(".ratingStar");
+            if (starButton) {
+                const ratingWrap = starButton.closest(".ratingWrap");
+                if (!ratingWrap) return;
+
+                const selectedRating = Number(starButton.dataset.ratingValue);
+                if (!Number.isInteger(selectedRating) || selectedRating < 1 || selectedRating > 5) return;
+
+                ratingWrap.dataset.selectedRating = String(selectedRating);
+                const stars = ratingWrap.querySelectorAll(".ratingStar");
+                stars.forEach((star) => {
+                    const starValue = Number(star.dataset.ratingValue);
+                    star.classList.toggle("is-active", starValue <= selectedRating);
+                });
+
+                const status = ratingWrap.querySelector(".ratingStatus");
+                if (status) status.textContent = `Selected rating: ${selectedRating}/5`;
+                return;
+            }
+
+            const saveButton = event.target.closest(".saveRatingBtn");
+            if (!saveButton) return;
+
+            const ratingWrap = saveButton.closest(".ratingWrap");
+            if (!ratingWrap) return;
+
+            const bookingId = Number(saveButton.dataset.bookingId);
+            const selectedRating = Number(ratingWrap.dataset.selectedRating || "");
+            const status = ratingWrap.querySelector(".ratingStatus");
+
+            if (!Number.isInteger(bookingId) || bookingId <= 0) return;
+            if (!Number.isInteger(selectedRating) || selectedRating < 1 || selectedRating > 5) {
+                if (status) status.textContent = "Select a rating from 1 to 5 stars.";
+                return;
+            }
+
+            saveButton.disabled = true;
+            saveButton.textContent = "Saving...";
+            if (status) status.textContent = "Saving your rating...";
+
+            try {
+                const res = await fetch(`/api/user/appointments/${bookingId}/rating`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ rating: selectedRating })
+                });
+                const data = await res.json();
+
+                if (!res.ok) {
+                    throw new Error(data.error || "Failed to save rating");
+                }
+
+                if (status) status.textContent = `Saved: ${selectedRating}/5`;
+                await Promise.all([loadAppointments(), loadBookingOptions()]);
+            } catch (err) {
+                if (status) status.textContent = err.message || "Could not save rating.";
+            } finally {
+                saveButton.disabled = false;
+                saveButton.textContent = "Save Rating";
+            }
+        });
+    }
+
+    Promise.all([loadProfile(), loadBookingOptions(), loadAppointments()]).then(async () => {
+        if (caregiverSelect && caregiverSelect.value) {
+            await loadCaregiverUnavailableDates(caregiverSelect.value);
+        }
+    }).catch(() => {
         if (formMessage) formMessage.textContent = "Could not load dashboard data right now.";
     });
 });

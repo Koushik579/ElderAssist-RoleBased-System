@@ -1,81 +1,46 @@
-# ElderAssist – Role-Based Elderly Care Management System
-## Overview
+# ElderAssist – Role-Based Elderly Care Management Platform
+# Overview
 
-ElderAssist is a role-based elderly care management system built using Node.js, Express, and PostgreSQL.
-The application provides separate dashboards and workflows for:
+ElderAssist is a full-stack elderly care management platform that connects patients with caregivers through a role-based system.
+The platform allows patients to request care services, caregivers to manage service requests, and administrators to monitor and control the entire system.
+
+The application is built using Node.js, Express, PostgreSQL, and bcrypt-based authentication, following a modular backend architecture.
+
+# Key Features
+Secure Authentication
+
+User registration and login
+
+Password hashing using bcrypt
+
+Role-based authentication middleware
+
+Role-Based Dashboards
+Patient (User)
+
+Create an account
+
+Book caregiving services
+
+Track service requests
+
+Caregiver
+
+View assigned service requests
+
+Accept or manage care bookings
 
 Admin
 
-Caretaker
+Monitor all users and caregivers
 
-User
+Update or delete system records
 
-The system follows a structured backend architecture with database connection pooling and repository-based data access.
+Oversee platform activity
 
-Features
-Authentication
+# Tech Stack
 
-Login & Registration
-
-Role-based access control
-
-Separate dashboards for Admin, Caretaker, and Users
-
-Admin Dashboard
-
-Manage system users
-
-Monitor overall activity
-
-Caretaker Dashboard
-
-Access assigned user data
-
-Manage care-related information
-
-User Dashboard
-
-Personal profile access
-
-Interaction with assigned caretaker
-
-Backend Architecture
-
-Express server
-
-PostgreSQL database
-
-Connection pooling using pg
-
-Repository layer abstraction
-
-Modular folder structure
-
-```
-## Project Structure
-ElderAssist/
-│
-├── landingpage/          # Public pages (home, login, register)
-│   ├── css/
-│   ├── js/
-│
-├── admindashboard/
-├── caretakerdashboard/
-├── userdashboard/
-│
-├── main/
-│   ├── app.js            # Express entry point
-│   ├── database/
-│   │   └── pool.js       # PostgreSQL connection pool
-│   ├── repository/
-│   │   └── repo.js       # Database logic layer
-│
-├── img/
-├── svg/
-├── package.json
-```
-
-## Tech Stack
+Backend
 
 Node.js
 
@@ -83,67 +48,109 @@ Express.js
 
 PostgreSQL
 
+bcrypt
+
+Frontend
+
 HTML5
 
 CSS3
 
 JavaScript
 
-pg (PostgreSQL driver)
+Architecture
 
-## Installation & Setup
-1. Clone Repository
+Repository pattern
+
+Middleware-based authentication
+
+Connection pooling for database
+
+# Project Structure
+```
+ElderAssist
+│
+├── public
+│   ├── admindashboard
+│   ├── caretakerdashboard
+│   ├── userdashboard
+│   ├── landingpage
+│   └── assets
+│
+├── src
+│   ├── database
+│   │   └── pool.js
+│   │
+│   ├── middleware
+│   │   └── auth.js
+│   │
+│   ├── repository
+│   │   └── repo.js
+│   │
+│   └── app.js
+│
+├── package.json
+├── package-lock.json
+└── README.md
+```
+System Architecture
+
+# The application follows a layered structure:
+
+Client (HTML/CSS/JS)
+        ↓
+Express Server (app.js)
+        ↓
+Middleware (Authentication / Authorization)
+        ↓
+Repository Layer (Database Queries)
+        ↓
+PostgreSQL Database
+
+This design separates routing, authentication, and database logic, making the system more scalable and maintainable.
+
+# Installation
+1 Clone the repository
 git clone <your-repo-url>
 cd ElderAssist
-2. Install Dependencies
+2 Install dependencies
 npm install
-3. Configure Database
+3 Configure database
 
-Update PostgreSQL credentials inside:
+# Update PostgreSQL credentials inside:
 
-main/database/pool.js
-
-Make sure PostgreSQL is running locally.
-
-4. Start Server
-node main/app.js
-
-Or if you add nodemon:
-
-npx nodemon main/app.js
-5. Open in Browser
+src/database/pool.js
+4 Start the server
+node src/app.js
+5 Open the application
 http://localhost:3000
 
-(Adjust port if changed in app.js)
+# Security Features
 
-## Work in Progress
+Password hashing with bcrypt
 
-Full authentication validation
+Role-based access control
 
-Session management improvements
+Middleware authentication checks
 
-UI refinement
-
-Error handling middleware
-
-Production-ready security hardening
+Server-side validation
 
 Future Improvements
 
-JWT-based authentication
+JWT authentication
 
-Password hashing
+Email verification
 
-RESTful API structure
+Appointment scheduling
+
+Real-time notifications
+
+REST API separation
 
 Deployment configuration
 
-Role middleware authorization
-
-Logging & monitoring
-
-## Author
+# Author
 
 Koushik Karmakar
-Java & Node.js Backend Developer
-Focused on structured backend architecture and role-based systems.
+Backend Developer – Java & Node.js
+Focused on building scalable backend architectures and role-based systems.

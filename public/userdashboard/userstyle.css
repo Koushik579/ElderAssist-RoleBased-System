@@ -278,6 +278,85 @@ a {
   margin-bottom: 6px;
 }
 
+.cancelPendingBtn {
+  margin-top: 8px;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  background: linear-gradient(135deg, #f04747, #d62f2f);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.ratingWrap {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #dce8f5;
+  background: linear-gradient(145deg, #f7fbff, #eef6ff);
+}
+
+.ratingLabel {
+  font-weight: 700;
+  color: #264c70;
+  margin-bottom: 8px;
+}
+
+.ratingStars {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.ratingStar {
+  border: none;
+  background: transparent;
+  color: #c8d7e6;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.14s ease, color 0.14s ease;
+}
+
+.ratingStar:hover {
+  transform: scale(1.08);
+}
+
+.ratingStar.is-active {
+  color: #ffbf2e;
+  text-shadow: 0 0 10px rgba(255, 191, 46, 0.42);
+}
+
+.saveRatingBtn {
+  border: none;
+  border-radius: 9px;
+  padding: 8px 12px;
+  background: linear-gradient(135deg, #0d80cb, #17aed4);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.saveRatingBtn:disabled {
+  opacity: 0.72;
+  cursor: not-allowed;
+}
+
+.ratingStatus {
+  margin-top: 8px;
+  margin-bottom: 0 !important;
+  font-size: 13px;
+  font-weight: 700;
+  color: #42617f;
+}
+
+.cancelPendingBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
 .emptyState {
   text-align: center;
   color: var(--muted);
@@ -403,6 +482,29 @@ a {
 .bookingForm input[readonly] {
   background: #f1f6fb;
   font-weight: 700;
+}
+
+.unavailableDates {
+  grid-column: span 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+
+.unavailableDateChip {
+  border: 1px solid #f2a6a6;
+  background: #ffe3e3;
+  color: #8e1e1e;
+  border-radius: 999px;
+  padding: 4px 9px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+#appointmentDate.dateUnavailable {
+  background: #ffe7e7;
+  border-color: #e26a6a;
 }
 
 .bookingForm button {

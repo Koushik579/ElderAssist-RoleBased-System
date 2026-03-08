@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ElderAssist - Admin Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/admindashboard/adminstyle.css">
 </head>
 <body>
@@ -11,7 +14,13 @@
     <header class="adminHeader">
       <div>
         <h1>Admin Dashboard</h1>
-        <p>Manage users, caregivers, and bookings from a single control panel.</p>
+        <p>Track services, caregivers, users, and active patient services with live status.</p>
+        <nav class="adminNav" aria-label="Admin sections">
+          <a href="#servicesSection">Services</a>
+          <a href="#caregiversSection">Caregivers</a>
+          <a href="#usersSection">Users</a>
+          <a href="#activeSection">Active Services</a>
+        </nav>
       </div>
       <button id="adminLogoutBtn" class="logoutBtn" type="button">Logout</button>
     </header>
@@ -27,14 +36,128 @@
           <p id="adminCaregivers">--</p>
         </article>
         <article class="kpiCard">
-          <h3>Active Bookings</h3>
+          <h3>Active Services</h3>
           <p id="adminBookings">--</p>
         </article>
       </section>
 
-      <section class="adminPanel">
-        <h2>System Status</h2>
-        <p>This admin surface is ready for integration with advanced controls.</p>
+      <section class="adminPanel" id="servicesSection">
+        <div class="panelHeader">
+          <h2>Available Services</h2>
+          <div class="filterBar">
+            <input id="servicesSearch" type="text" placeholder="Search service name">
+            <button id="servicesApply" type="button">Apply Filter</button>
+            <button id="servicesReset" type="button" class="ghostBtn">Reset</button>
+          </div>
+        </div>
+        <div class="tableWrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Service</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody id="servicesBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="adminPanel" id="caregiversSection">
+        <div class="panelHeader">
+          <h2>Caregivers</h2>
+          <div class="filterBar">
+            <input id="caregiversSearch" type="text" placeholder="Name or email">
+            <select id="caregiversStatusFilter">
+              <option value="">All Status</option>
+              <option value="AVAILABLE">Available</option>
+              <option value="BUSY">Busy</option>
+              <option value="INACTIVE">Inactive</option>
+            </select>
+            <button id="caregiversApply" type="button">Apply Filter</button>
+            <button id="caregiversReset" type="button" class="ghostBtn">Reset</button>
+          </div>
+        </div>
+        <div class="tableWrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Service</th>
+                <th>Experience</th>
+                <th>Rating</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="caregiversBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="adminPanel" id="usersSection">
+        <div class="panelHeader">
+          <h2>Users</h2>
+          <div class="filterBar">
+            <input id="usersSearch" type="text" placeholder="Name or email">
+            <select id="usersRoleFilter">
+              <option value="">All Roles</option>
+              <option value="USER">User</option>
+              <option value="CAREGIVER">Caregiver</option>
+              <option value="ADMIN">Admin</option>
+            </select>
+            <button id="usersApply" type="button">Apply Filter</button>
+            <button id="usersReset" type="button" class="ghostBtn">Reset</button>
+          </div>
+        </div>
+        <div class="tableWrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Role</th>
+              </tr>
+            </thead>
+            <tbody id="usersBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="adminPanel" id="activeSection">
+        <div class="panelHeader">
+          <h2>Active Patient Services</h2>
+          <div class="filterBar">
+            <input id="activeSearch" type="text" placeholder="Patient, caregiver, or service">
+            <select id="activeStatusFilter">
+              <option value="">All Status</option>
+              <option value="PENDING">Pending</option>
+              <option value="APPROVED">Approved</option>
+            </select>
+            <button id="activeApply" type="button">Apply Filter</button>
+            <button id="activeReset" type="button" class="ghostBtn">Reset</button>
+          </div>
+        </div>
+        <div class="tableWrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Booking ID</th>
+                <th>Patient</th>
+                <th>Caregiver</th>
+                <th>Service</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="activeBody"></tbody>
+          </table>
+        </div>
       </section>
     </main>
   </div>

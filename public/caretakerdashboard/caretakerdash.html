@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ElderAssist - Caregiver Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/caretakerdashboard/caretakerstyle.css">
 </head>
 <body>
@@ -12,28 +15,68 @@
       <div class="headerTop">
         <div>
           <h1>Caregiver Dashboard</h1>
-          <p>Review bookings and update appointment status quickly.</p>
+          <p>Review bookings and manage your caregiver profile.</p>
         </div>
-        <button id="logoutBtn" class="logoutBtn" type="button">Logout</button>
+        <div class="headerActions">
+          <button id="settingsBtn" class="settingsBtn" type="button">Settings</button>
+          <button id="logoutBtn" class="logoutBtn" type="button">Logout</button>
+        </div>
       </div>
     </header>
 
     <main class="main">
-      <section class="tableSection">
-        <h2>Assigned Bookings</h2>
-        <p id="emptyState" class="emptyState">No bookings available right now.</p>
+      <section class="profileSection">
+        <h2>Your Profile</h2>
+        <div class="profileGrid">
+          <article class="profileItem">
+            <h3>Name</h3>
+            <p id="profileName">NA</p>
+          </article>
+          <article class="profileItem">
+            <h3>Email</h3>
+            <p id="profileEmail">NA</p>
+          </article>
+          <article class="profileItem">
+            <h3>Phone</h3>
+            <p id="profilePhone">NA</p>
+          </article>
+          <article class="profileItem">
+            <h3>Service</h3>
+            <p id="profileService">NA</p>
+          </article>
+          <article class="profileItem">
+            <h3>Experience</h3>
+            <p id="profileExperience">NA</p>
+          </article>
+          <article class="profileItem">
+            <h3>Qualification</h3>
+            <p id="profileQualification">NA</p>
+          </article>
+          <article class="profileItem">
+            <h3>Status</h3>
+            <p id="profileStatus">NA</p>
+          </article>
+          <article class="profileItem">
+            <h3>Rating</h3>
+            <p id="profileRating">NA</p>
+          </article>
+        </div>
+      </section>
 
+      <section class="tableSection">
+        <h2>Assigned Appointments</h2>
+        <p id="emptyState" class="emptyState">No appointments assigned right now.</p>
         <div class="tableWrap">
-          <table id="appointmentsTable">
+          <table id="appointmentsTable" aria-label="Appointments table">
             <thead>
               <tr>
-                <th>ID</th>
+                <th>Booking ID</th>
                 <th>User</th>
                 <th>Service</th>
                 <th>Date</th>
                 <th>Time</th>
                 <th>Status</th>
-                <th>Update</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody id="appointmentsBody"></tbody>
@@ -41,6 +84,49 @@
         </div>
       </section>
     </main>
+  </div>
+
+  <div class="settingsOverlay" id="settingsOverlay" aria-hidden="true">
+    <section class="settingsPanel" aria-label="Caregiver settings">
+      <div class="settingsHeader">
+        <h2>Caregiver Settings</h2>
+        <button id="closeSettings" class="closeSettings" type="button" aria-label="Close settings">x</button>
+      </div>
+
+      <div class="settingsContent">
+        <p id="currentServiceText" class="currentServiceText">Current service: Not selected</p>
+
+        <label for="serviceSelectSettings">Service</label>
+        <select id="serviceSelectSettings" class="settingsSelect">
+          <option value="">Select Service</option>
+        </select>
+
+        <label for="firstNameSettings">First Name</label>
+        <input id="firstNameSettings" class="settingsInput" type="text" placeholder="First Name">
+
+        <label for="lastNameSettings">Last Name</label>
+        <input id="lastNameSettings" class="settingsInput" type="text" placeholder="Last Name">
+
+        <label for="phoneSettings">Phone</label>
+        <input id="phoneSettings" class="settingsInput" type="text" placeholder="Phone">
+
+        <label for="experienceSettings">Years of Experience</label>
+        <input id="experienceSettings" class="settingsInput" type="number" min="0" placeholder="Years">
+
+        <label for="qualificationSettings">Qualification</label>
+        <input id="qualificationSettings" class="settingsInput" type="text" placeholder="Qualification">
+
+        <label for="statusSettings">Availability</label>
+        <select id="statusSettings" class="settingsSelect">
+          <option value="AVAILABLE">Available</option>
+          <option value="BUSY">Busy</option>
+          <option value="INACTIVE">Inactive</option>
+        </select>
+
+        <p id="settingsMessage" class="settingsMessage"></p>
+        <button id="saveServiceBtn" class="saveServiceBtn" type="button">Save Changes</button>
+      </div>
+    </section>
   </div>
 
   <script src="/caretakerdashboard/caretakerscript.js"></script>
